@@ -22,7 +22,8 @@ def argumentParser(argument):
   return prefix, nbJoints, nbfingers
 
 def moveJoint (jointcmds,prefix,nbJoints):
-  topic_name = '/' + prefix + '/effort_joint_trajectory_controller/command'
+  #topic_name = '/' + prefix + '/effort_joint_trajectory_controller/command'
+  topic_name = '/effort_joint_trajectory_controller/command'
   pub = rospy.Publisher(topic_name, JointTrajectory, queue_size=1)
   jointCmd = JointTrajectory()  
   point = JointTrajectoryPoint()
@@ -43,7 +44,8 @@ def moveJoint (jointcmds,prefix,nbJoints):
     rate.sleep()     
 
 def moveFingers (jointcmds,prefix,nbJoints):
-  topic_name = '/' + prefix + '/effort_finger_trajectory_controller/command'
+  #topic_name = '/' + prefix + '/effort_finger_trajectory_controller/command'
+  topic_name = '/effort_finger_trajectory_controller/command'
   pub = rospy.Publisher(topic_name, JointTrajectory, queue_size=1)  
   jointCmd = JointTrajectory()  
   point = JointTrajectoryPoint()
@@ -67,8 +69,9 @@ if __name__ == '__main__':
   try:    
     rospy.init_node('move_robot_using_trajectory_msg')		
     prefix, nbJoints, nbfingers = argumentParser(None)    
+    
     #allow gazebo to launch
-    time.sleep(5)
+    time.sleep(10)
 
     # Unpause the physics
     rospy.wait_for_service('/gazebo/unpause_physics')
