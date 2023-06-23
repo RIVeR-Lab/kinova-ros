@@ -94,7 +94,7 @@
         <limit effort="${joint_torque_limit}" velocity="${joint_velocity_limit}"/>
         </xacro:if>
         <origin xyz="${joint_origin_xyz}" rpy="${joint_origin_rpy}"/>
-        <dynamics damping="0.0" friction="0.0"/>
+        <dynamics damping="0.0" friction="0.1"/>
      </joint>
    <xacro:unless value="${fixed}">
      <transmission name="${joint_name}_trans">
