@@ -58,5 +58,6 @@ install(PROGRAMS
   nodes/kinova_demo/testActionSvr.py
   nodes/kinova_demo/gravity_compensated_mode.py
   nodes/kinova_demo/run_COMParameters_estimation.py
+  nodes/kinova_demo/jackal_jaco_arm_control.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
