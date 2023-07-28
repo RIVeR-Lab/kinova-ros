@@ -25,8 +25,7 @@ def joint_angle_client(angle_set, duration=0.2):
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
                                           kinova_msgs.msg.ArmJointAnglesAction)
-    if duration < 1.0:
-        client.cancel_all_goals()
+    client.cancel_all_goals()
     client.wait_for_server()
 
     goal = kinova_msgs.msg.ArmJointAnglesGoal()
@@ -104,18 +103,19 @@ def trajectory_callback(msg):
     # for point in msg.points[0]:
     try:
         for idx, point in enumerate(msg.points):
-            if idx > len(msg.points)-2:
-                joint_degree, joint_radian = unitParser('radian', point.positions, False)
-                positions = [0]*7
-                if arm_joint_number < 1:
-                    print('Joint number is 0, check with "-h" to see how to use this node.')
-                    positions = []  # Get rid of static analysis warning that doesn't see the exit()
-                    sys.exit() 
-                else:
-                    for i in range(0,arm_joint_number):
-                        positions[i] = joint_degree[i]               
+            for i in range(0,2):
+                if idx > len(msg.points)-2:
+                    joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                    positions = [0]*7
+                    if arm_joint_number < 1:
+                        print('Joint number is 0, check with "-h" to see how to use this node.')
+                        positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                        sys.exit() 
+                    else:
+                        for i in range(0,arm_joint_number):
+                            positions[i] = joint_degree[i]               
 
-                result = joint_angle_client(positions, 20.0)
+                    result = joint_angle_client(positions, 20.0)
             else:    
                 joint_degree, joint_radian = unitParser('radian', point.positions, False)
                 positions = [0]*7
