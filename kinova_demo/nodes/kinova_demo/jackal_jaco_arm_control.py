@@ -103,7 +103,7 @@ def trajectory_callback(msg):
     # for point in msg.points[0]:
     try:
         for idx, point in enumerate(msg.points):
-            for i in range(0,2):
+            for i in range(0,5):
                 if idx > len(msg.points)-2:
                     joint_degree, joint_radian = unitParser('radian', point.positions, False)
                     positions = [0]*7
