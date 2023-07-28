@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/python3
 import rospy
 
 import sys
@@ -97,7 +97,9 @@ def trajectory_callback(msg):
     print("[+] Trajectory Received")
     # for point in msg.points[0]:
     try:
-        for point in msg.points:
+        for idx, point in enumerate(msg.points):
+            if idx != 0 or idx != len(msg.points - 1):
+                continue
             joint_degree, joint_radian = unitParser('radian', point.positions, False)
             positions = [0]*7
             if arm_joint_number < 1:
@@ -127,6 +129,7 @@ if __name__ == '__main__':
 
     # get Current finger position if relative position
     getcurrentJointCommand(prefix)
-    trajectory_subscriber = rospy.Subscriber('/j2n6s300_driver/out/joint_state', JointTrajectory, queue_size=10, callback=trajectory_callback)
+    print("[+] Node Started")
+    trajectory_subscriber = rospy.Subscriber('/j2n6s300_driver/trajectory_controller/command', JointTrajectory, queue_size=100, callback=trajectory_callback)
     # joint_degree, joint_radian = unitParser('radian', '')
     rospy.spin()
