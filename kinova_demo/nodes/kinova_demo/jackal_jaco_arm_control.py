@@ -25,7 +25,8 @@ def joint_angle_client(angle_set, duration=0.2):
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
                                           kinova_msgs.msg.ArmJointAnglesAction)
-    client.cancel_all_goals()
+    if duration < 1.0:
+        client.cancel_all_goals()
     client.wait_for_server()
 
     goal = kinova_msgs.msg.ArmJointAnglesGoal()
