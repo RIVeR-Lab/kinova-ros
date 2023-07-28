@@ -20,7 +20,7 @@ finger_maxTurn = 6800  # max thread rotation for one finger
 currentJointCommand = [] # number of joints is defined in __main__
 
 
-def joint_angle_client(angle_set):
+def joint_angle_client(angle_set, duration=0.5):
     """Send a joint angle goal to the action server."""
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
@@ -38,11 +38,11 @@ def joint_angle_client(angle_set):
     goal.angles.joint7 = angle_set[6]
 
     client.send_goal(goal)
-    if client.wait_for_result(rospy.Duration(0.5)):
+    if client.wait_for_result(rospy.Duration(duration)):
         return client.get_result()
     else:
         print('        the joint angle action timed-out')
-        client.cancel_all_goals()
+        # client.cancel_all_goals()
         return None
 
 
@@ -98,17 +98,30 @@ def trajectory_callback(msg):
     # for point in msg.points[0]:
     try:
         for idx, point in enumerate(msg.points):
-            joint_degree, joint_radian = unitParser('radian', point.positions, False)
-            positions = [0]*7
-            if arm_joint_number < 1:
-                print('Joint number is 0, check with "-h" to see how to use this node.')
-                positions = []  # Get rid of static analysis warning that doesn't see the exit()
-                sys.exit() 
-            else:
-                for i in range(0,arm_joint_number):
-                    positions[i] = joint_degree[i]               
+            if idx == len(msg.points)-1:
+                joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                positions = [0]*7
+                if arm_joint_number < 1:
+                    print('Joint number is 0, check with "-h" to see how to use this node.')
+                    positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                    sys.exit() 
+                else:
+                    for i in range(0,arm_joint_number):
+                        positions[i] = joint_degree[i]               
 
-            result = joint_angle_client(positions)
+                result = joint_angle_client(positions, 20)
+            else:    
+                joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                positions = [0]*7
+                if arm_joint_number < 1:
+                    print('Joint number is 0, check with "-h" to see how to use this node.')
+                    positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                    sys.exit() 
+                else:
+                    for i in range(0,arm_joint_number):
+                        positions[i] = joint_degree[i]               
+
+                result = joint_angle_client(positions)
 
     except rospy.ROSInterruptException:
         print('program interrupted before completion')
