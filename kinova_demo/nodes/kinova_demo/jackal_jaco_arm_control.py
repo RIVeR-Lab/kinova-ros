@@ -25,6 +25,7 @@ def joint_angle_client(angle_set, duration=0.2):
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
                                           kinova_msgs.msg.ArmJointAnglesAction)
+    client.cancel_all_goals()
     client.wait_for_server()
 
     goal = kinova_msgs.msg.ArmJointAnglesGoal()
@@ -36,7 +37,7 @@ def joint_angle_client(angle_set, duration=0.2):
     goal.angles.joint5 = angle_set[4]
     goal.angles.joint6 = angle_set[5]
     goal.angles.joint7 = angle_set[6]
-
+    
     client.send_goal(goal)
     if duration > 5:
         if client.wait_for_result(rospy.Duration(duration)):
