@@ -94,6 +94,7 @@ def unitParser(unit, joint_value, relative_):
 
 
 def trajectory_callback(msg):
+    print("[+] Trajectory Received")
     # for point in msg.points[0]:
     try:
         for point in msg.points:
@@ -126,6 +127,6 @@ if __name__ == '__main__':
 
     # get Current finger position if relative position
     getcurrentJointCommand(prefix)
-    trajectory_subscriber = rospy.Subscriber('/arm_controller/command', JointTrajectory, queue_size=10, callback=trajectory_callback)
+    trajectory_subscriber = rospy.Subscriber('/j2n6s300_driver/out/joint_state', JointTrajectory, queue_size=10, callback=trajectory_callback)
     # joint_degree, joint_radian = unitParser('radian', '')
     rospy.spin()
