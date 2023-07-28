@@ -20,7 +20,7 @@ finger_maxTurn = 6800  # max thread rotation for one finger
 currentJointCommand = [] # number of joints is defined in __main__
 
 
-def joint_angle_client(angle_set, duration=0.5):
+def joint_angle_client(angle_set, duration=0.2):
     """Send a joint angle goal to the action server."""
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
@@ -110,7 +110,7 @@ def trajectory_callback(msg):
                     for i in range(0,arm_joint_number):
                         positions[i] = joint_degree[i]               
 
-                result = joint_angle_client(positions, 20)
+                result = joint_angle_client(positions, 20.0)
             else:    
                 joint_degree, joint_radian = unitParser('radian', point.positions, False)
                 positions = [0]*7
