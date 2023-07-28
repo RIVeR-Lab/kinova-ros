@@ -42,7 +42,8 @@ def joint_angle_client(angle_set, duration=0.5):
         return client.get_result()
     else:
         print('        the joint angle action timed-out')
-        # client.cancel_all_goals()
+        if duration > 5.0:
+            client.cancel_all_goals()
         return None
 
 
