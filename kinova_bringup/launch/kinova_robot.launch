@@ -1,4 +1,5 @@
 <launch>
+  <param name ="/use_sim_time" value="true"/>
   <arg name="use_urdf" default="true"/>
   <arg name="kinova_robotType" default="j2n6s300" />
   <arg name="kinova_robotName" default="$(arg kinova_robotType)"/>
@@ -34,5 +35,5 @@
       <remap from="joint_states" to="/$(arg kinova_robotName)_driver/out/joint_state"/>
     </node>
   </group>
-  
+
 </launch>
