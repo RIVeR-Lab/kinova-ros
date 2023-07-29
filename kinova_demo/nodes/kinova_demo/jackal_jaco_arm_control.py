@@ -147,6 +147,6 @@ if __name__ == '__main__':
     # get Current finger position if relative position
     getcurrentJointCommand(prefix)
     print("[+] Node Started")
-    trajectory_subscriber = rospy.Subscriber('/j2n6s300_driver/trajectory_controller/command', JointTrajectory, queue_size=100, callback=trajectory_callback)
+    trajectory_subscriber = rospy.Subscriber('/arm_controller/command', JointTrajectory, queue_size=100, callback=trajectory_callback)
     # joint_degree, joint_radian = unitParser('radian', '')
     rospy.spin()
