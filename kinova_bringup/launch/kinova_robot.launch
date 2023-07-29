@@ -34,5 +34,5 @@
       <remap from="joint_states" to="/$(arg kinova_robotName)_driver/out/joint_state"/>
     </node>
   </group>
-  <param name ="/use_sim_time" value="true"/>
+  
 </launch>
