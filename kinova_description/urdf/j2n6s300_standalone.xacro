@@ -17,21 +17,21 @@
 	xmlns:xacro="http://www.ros.org/wiki/xacro" name="j2n6s300">
 
 
-  <xacro:include filename="$(find kinova_description)/urdf/j2n6s300.xacro"/>
+  <xacro:include filename="$(find mobiman_simulation)/urdf/jackal_jaco.xacro"/>
 
-  <link name="root"/>
+  <!-- <link name="root"/> -->
 
   <!-- for gazebo -->
-  <link name="base_link"/>
+  <!-- <link name="base_link"/> -->
   
-  <joint name="connect_root_and_world" type="fixed">
-    <child link="root" />
-    <parent link="base_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />    
-  </joint> 
+  <!-- <joint name="connect_root_and_world" type="fixed"> -->
+    <!-- <child link="root" /> -->
+    <!-- <parent link="base_link" /> -->
+    <!-- <origin xyz="0 0 0" rpy="0 0 0" />     -->
+  <!-- </joint>  -->
 
-  <xacro:property name="robot_root" value="root" />
+  <!-- <xacro:property name="robot_root" value="root" /> -->
 
-  <xacro:j2n6s300  base_parent="${robot_root}"/>
+  <!-- <xacro:j2n6s300  base_parent="${robot_root}"/> -->
 
 </robot>
