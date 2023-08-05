@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/python3
 import rospy
 
 import sys
@@ -20,11 +20,12 @@ finger_maxTurn = 6800  # max thread rotation for one finger
 currentJointCommand = [] # number of joints is defined in __main__
 
 
-def joint_angle_client(angle_set):
+def joint_angle_client(angle_set, duration=0.2):
     """Send a joint angle goal to the action server."""
     action_address = '/' + prefix + 'driver/joints_action/joint_angles'
     client = actionlib.SimpleActionClient(action_address,
                                           kinova_msgs.msg.ArmJointAnglesAction)
+    client.cancel_all_goals()
     client.wait_for_server()
 
     goal = kinova_msgs.msg.ArmJointAnglesGoal()
@@ -36,14 +37,18 @@ def joint_angle_client(angle_set):
     goal.angles.joint5 = angle_set[4]
     goal.angles.joint6 = angle_set[5]
     goal.angles.joint7 = angle_set[6]
-
+    
     client.send_goal(goal)
-    if client.wait_for_result(rospy.Duration(20.0)):
-        return client.get_result()
+    if duration > 5:
+        if client.wait_for_result(rospy.Duration(duration)):
+            return client.get_result()
+        else:
+            print('        the joint angle action timed-out')
+            if duration > 5.0:
+                client.cancel_all_goals()
+            return None
     else:
-        print('        the joint angle action timed-out')
-        client.cancel_all_goals()
-        return None
+        return client.get_result()
 
 
 
@@ -94,20 +99,35 @@ def unitParser(unit, joint_value, relative_):
 
 
 def trajectory_callback(msg):
+    print("[+] Trajectory Received")
     # for point in msg.points[0]:
     try:
-        for point in msg.points:
-            joint_degree, joint_radian = unitParser('radian', point.positions, False)
-            positions = [0]*7
-            if arm_joint_number < 1:
-                print('Joint number is 0, check with "-h" to see how to use this node.')
-                positions = []  # Get rid of static analysis warning that doesn't see the exit()
-                sys.exit() 
-            else:
-                for i in range(0,arm_joint_number):
-                    positions[i] = joint_degree[i]               
+        for idx, point in enumerate(msg.points):
+            for i in range(0,5):
+                if idx > len(msg.points)-2:
+                    joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                    positions = [0]*7
+                    if arm_joint_number < 1:
+                        print('Joint number is 0, check with "-h" to see how to use this node.')
+                        positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                        sys.exit() 
+                    else:
+                        for i in range(0,arm_joint_number):
+                            positions[i] = joint_degree[i]               
 
-            result = joint_angle_client(positions)
+                    result = joint_angle_client(positions, 20.0)
+            else:    
+                joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                positions = [0]*7
+                if arm_joint_number < 1:
+                    print('Joint number is 0, check with "-h" to see how to use this node.')
+                    positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                    sys.exit() 
+                else:
+                    for i in range(0,arm_joint_number):
+                        positions[i] = joint_degree[i]               
+
+                result = joint_angle_client(positions)
 
     except rospy.ROSInterruptException:
         print('program interrupted before completion')
@@ -126,6 +146,7 @@ if __name__ == '__main__':
 
     # get Current finger position if relative position
     getcurrentJointCommand(prefix)
-    trajectory_subscriber = rospy.Subscriber('/arm_controller/command', JointTrajectory, queue_size=10, callback=trajectory_callback)
+    print("[+] Node Started")
+    trajectory_subscriber = rospy.Subscriber('/arm_controller/command', JointTrajectory, queue_size=100, callback=trajectory_callback)
     # joint_degree, joint_radian = unitParser('radian', '')
     rospy.spin()
