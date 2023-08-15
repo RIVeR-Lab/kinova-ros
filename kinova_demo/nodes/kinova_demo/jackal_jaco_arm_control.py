@@ -39,16 +39,16 @@ def joint_angle_client(angle_set, duration=0.2):
     goal.angles.joint7 = angle_set[6]
     
     client.send_goal(goal)
-    if duration > 5:
-        if client.wait_for_result(rospy.Duration(duration)):
-            return client.get_result()
-        else:
-            print('        the joint angle action timed-out')
-            if duration > 5.0:
-                client.cancel_all_goals()
-            return None
-    else:
-        return client.get_result()
+    # if duration > 5:
+    #     if client.wait_for_result(rospy.Duration(duration)):
+    #         return client.get_result()
+    #     else:
+    #         print('        the joint angle action timed-out')
+    #         if duration > 5.0:
+    #             client.cancel_all_goals()
+    #         return None
+    # else:
+    return client.get_result()
 
 
 
@@ -104,19 +104,19 @@ def trajectory_callback(msg):
     try:
         for idx, point in enumerate(msg.points):
             for i in range(0,5):
-                if idx > len(msg.points)-2:
-                    joint_degree, joint_radian = unitParser('radian', point.positions, False)
-                    positions = [0]*7
-                    if arm_joint_number < 1:
-                        print('Joint number is 0, check with "-h" to see how to use this node.')
-                        positions = []  # Get rid of static analysis warning that doesn't see the exit()
-                        sys.exit() 
-                    else:
-                        for i in range(0,arm_joint_number):
-                            positions[i] = joint_degree[i]               
+                # if idx > len(msg.points)-2:
+                #     joint_degree, joint_radian = unitParser('radian', point.positions, False)
+                #     positions = [0]*7
+                #     if arm_joint_number < 1:
+                #         print('Joint number is 0, check with "-h" to see how to use this node.')
+                #         positions = []  # Get rid of static analysis warning that doesn't see the exit()
+                #         sys.exit() 
+                #     else:
+                #         for i in range(0,arm_joint_number):
+                #             positions[i] = joint_degree[i]               
 
-                    result = joint_angle_client(positions, 20.0)
-            else:    
+                #     result = joint_angle_client(positions, 0.0)
+                # else:    
                 joint_degree, joint_radian = unitParser('radian', point.positions, False)
                 positions = [0]*7
                 if arm_joint_number < 1:
