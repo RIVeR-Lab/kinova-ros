@@ -55,8 +55,8 @@
     <xacro:property name="joint_1_axis_xyz" value="0 0 1" />
     <xacro:property name="joint_1_origin_xyz" value="0 0 0.15675" />
     <xacro:property name="joint_1_origin_rpy" value="0 ${J_PI} 0" />
-    <xacro:property name="joint_1_lower_limit" value="${-2*J_PI}" />
-    <xacro:property name="joint_1_upper_limit" value="${2*J_PI}" />
+    <xacro:property name="joint_1_lower_limit" value="${-200*J_PI}" />
+    <xacro:property name="joint_1_upper_limit" value="${200*J_PI}" />
     <xacro:property name="joint_1_velocity_limit" value="${36*J_PI/180}" />
     <xacro:property name="joint_1_torque_limit" value="40" />
 
@@ -85,8 +85,8 @@
     <xacro:property name="joint_4_axis_xyz" value="0 0 1" />
     <xacro:property name="joint_4_origin_xyz" value="0 0.2073 -0.0114" />
     <xacro:property name="joint_4_origin_rpy" value="-${J_PI/2} 0 ${J_PI}" />
-    <xacro:property name="joint_4_lower_limit" value="${-2*J_PI}" />
-    <xacro:property name="joint_4_upper_limit" value="${2*J_PI}" />
+    <xacro:property name="joint_4_lower_limit" value="${-200*J_PI}" />
+    <xacro:property name="joint_4_upper_limit" value="${200*J_PI}" />
     <xacro:property name="joint_4_velocity_limit" value="${48*J_PI/180}" />
     <xacro:property name="joint_4_torque_limit" value="20" />
 
@@ -95,8 +95,8 @@
     <xacro:property name="joint_5_axis_xyz" value="0 0 1" />
     <xacro:property name="joint_5_origin_xyz" value="0 -0.03703 -0.06414" />
     <xacro:property name="joint_5_origin_rpy" value="${J_PI/3} 0 ${J_PI}" />
-    <xacro:property name="joint_5_lower_limit" value="${-2*J_PI}" />
-    <xacro:property name="joint_5_upper_limit" value="${2*J_PI}" />
+    <xacro:property name="joint_5_lower_limit" value="${-200*J_PI}" />
+    <xacro:property name="joint_5_upper_limit" value="${200*J_PI}" />
     <xacro:property name="joint_5_velocity_limit" value="${48*J_PI/180}" />
     <xacro:property name="joint_5_torque_limit" value="20" />
 
@@ -107,8 +107,8 @@
     <xacro:property name="joint_6_origin_rpy" value="${J_PI/3} 0 ${J_PI}" />
     <!-- If gripper inverted, use this line instead -->
     <!-- <xacro:property name="joint_6_origin_rpy" value="$${-J_PI/3} 0 0" /> -->
-    <xacro:property name="joint_6_lower_limit" value="${-2*J_PI}" />
-    <xacro:property name="joint_6_upper_limit" value="${2*J_PI}" />
+    <xacro:property name="joint_6_lower_limit" value="${-200*J_PI}" />
+    <xacro:property name="joint_6_upper_limit" value="${200*J_PI}" />
     <xacro:property name="joint_6_velocity_limit" value="${48*J_PI/180}" />
     <xacro:property name="joint_6_torque_limit" value="20" />
 
