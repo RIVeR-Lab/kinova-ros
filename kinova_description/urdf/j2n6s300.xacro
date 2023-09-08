@@ -53,7 +53,7 @@
     <xacro:property name="joint_1" value="joint_1" />
     <xacro:property name="joint_1_type" value="revolute" />
     <xacro:property name="joint_1_axis_xyz" value="0 0 1" />
-    <xacro:property name="joint_1_origin_xyz" value="0 0 0.16575" />
+    <xacro:property name="joint_1_origin_xyz" value="0 0 0.16975" />
     <xacro:property name="joint_1_origin_rpy" value="0 ${J_PI} 0" />
     <xacro:property name="joint_1_lower_limit" value="${-200*J_PI}" />
     <xacro:property name="joint_1_upper_limit" value="${200*J_PI}" />
